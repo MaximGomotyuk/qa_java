@@ -1,59 +1,38 @@
 import com.example.Feline;
 import com.example.Lion;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-
 import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-@RunWith(Parameterized.class)
 public class LionTest {
-
-        String sex;
-        boolean expectedHasMane;
-
-        public LionTest (String sex, boolean expectedHasMane) {
-            this.sex = sex;
-            this.expectedHasMane = expectedHasMane;
-        }
-        @Parameterized.Parameters
-        public static Object[][] getParameters() {
-            return new Object[][]{
-                    {"Самец", true},
-                    {"Самка", false},
-            };
-        }
-
-    @Test
-    public void checkSexAndGetMane () throws Exception {
-        Lion mufasa = new Lion(sex);
-        boolean actualHasMane = mufasa.doesHaveMane();
-        assertEquals (expectedHasMane, actualHasMane);
-    }
+    Feline lion = new Feline();
 
     @Test (expected = Exception.class)
     public void checkExceptionIfNotMaleAndNotFemale () throws Exception {
-        Lion mufasa = new Lion("Котёнок");
+        Lion simba = new Lion("Котёнок", lion);
         }
 
     @Test
+    public void checkExceptionMessage () {
+        try {Lion simba = new Lion("Котёнок", lion);
+        } catch (Exception exception) {
+            assertEquals("Используйте допустимые значения пола животного - самец или самка", exception.getMessage());
+        }
+    }
+
+    @Test
     public void checkGetKittens () throws Exception {
-        Lion mufasa = new Lion("Самка");
-        Feline feline = new Feline();
-        mufasa.Feline(feline);
+        Lion nola = new Lion("Самка", lion);
         int expectedKittensCount = 1;
-        int actualKittensCount = mufasa.getKittens();
+        int actualKittensCount = nola.getKittens();
         assertEquals (expectedKittensCount, actualKittensCount);
     }
 
     @Test
     public void checkGetFoodForPredators() throws Exception {
-        Lion mufasa = new Lion("Самка");
-        Feline feline = new Feline();
-        mufasa.Feline(feline);
+        Lion mufasa = new Lion("Самец", lion);
         List<String> expectedFood = Arrays.asList("Животные", "Птицы", "Рыба");
         List<String> actualFood = mufasa.getFood();
         assertEquals(expectedFood, actualFood);
